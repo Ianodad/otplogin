@@ -1,8 +1,9 @@
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import RegisterScreen from './src/RegisterScreen';
+import WelcomeScreen from './src/WelcomeScreen';
 import LoginScreen from './src/LoginScreen';
+import RegisterScreen from './src/RegisterScreen';
 import {AuthenticationScreen} from './src/AuthenticationScreen';
 import {HomeScreen} from './src/HomeScreen';
 import {InputOtpScreen} from './src/InputOtpScreen';
@@ -14,13 +15,18 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="Register"
-          component={RegisterScreen}
+          name="Welcome"
+          component={WelcomeScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="Login"
           component={LoginScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Register"
+          component={RegisterScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen
