@@ -171,11 +171,6 @@ export function AuthenticationScreen({navigation}) {
           onBlur={onChangeBlur}
           autoFocus={focusInput}
           LeftComponent={
-            // <TouchableOpacity onPress={onShowHideModal}>
-            //   <View style={styles.openDialogView}>
-            //     <Text>{codeCountry + ' |'}</Text>
-            //   </View>
-            // </TouchableOpacity>
             <CustomButton
             type={'link'}
             buttonStyle={[styles.openDialogView]}
