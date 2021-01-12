@@ -6,8 +6,6 @@ import {
   Text,
   View,
   KeyboardAvoidingView,
-  TextInput,
-  TouchableOpacity,
   StyleSheet,
   Modal,
   SafeAreaView,
@@ -16,11 +14,16 @@ import {
 } from 'react-native';
 import {Countries} from './Countries';
 import {
+  CustomScreenContainer,
   NavigationHeader,
   FullButtonComponent,
   CustomTextInput,
+  CustomButton,
+  CustomText,
 } from './lib';
 import {GenericStyles} from './styles/GenericStyles';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import {colors} from './common';
 
 export function AuthenticationScreen({navigation}) {
   let textInput = useRef(null);
@@ -92,65 +95,68 @@ export function AuthenticationScreen({navigation}) {
     //   console.log(dataCountries);
     return (
       <Modal animationType="slide" transparent={false} visible={modalVisible}>
-        <SafeAreaView style={{flex: 1}}>
-          <View style={styles.modalContainer}>
-            <View style={styles.filterInputContainer}>
-              <TextInput
-                autoFocus={true}
-                onChangeText={filterCountries}
-                placeholder={'filter'}
-                focusable={true}
-                style={styles.filterInputStyle}
-              />
-            </View>
+        <SafeAreaView style={{flex: 1, backgroundColor:'transparent'}}>
+          <View style={[styles.modalContainer]}>
+            <CustomTextInput
+              containerStyle={styles.filterInputContainer}
+              autoFocus={true}
+              onChangeText={filterCountries}
+              placeholder={'filter'}
+              focusable={true}
+              style={[styles.filterInputStyle]}
+              LeftComponent={
+                <Icon name={'flag-o'} color={colors.secondary} size={15} />
+              }
+            />
             <FlatList
-              style={{flex: 1, backgroundColor:'red'}}
+              style={{flex: 1, backgroundColor:'transparent'}}
               data={dataCountries}
               extraData={dataCountries}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({item}) => {
-                    return (<TouchableWithoutFeedback onPress={() => onCountryChange(item)}>
-                        <View style={styles.countryModalStyle}>
-                            <View style={styles.modalItemContainer}>
-                            <Text style={styles.modalItemName}>{item.en}</Text>
-                            <Text style={styles.modalItemDialCode}>
-                                {item.dialCode}
-                            </Text>
-                            </View>
+                return (<TouchableWithoutFeedback onPress={() => onCountryChange(item)}>
+                    <View style={styles.countryModalStyle}>
+                        <View style={styles.modalItemContainer}>
+                        <Text style={styles.modalItemName}>{item.en}</Text>
+                        <Text style={styles.modalItemDialCode}>
+                            {item.dialCode}
+                        </Text>
                         </View>
-                    </TouchableWithoutFeedback>);
+                    </View>
+                </TouchableWithoutFeedback>);
                 }}
             />
           </View>
-
-          <TouchableOpacity
+          <FullButtonComponent
+            type={'link'}
+            buttonStyle={[ styles.closeButtonStyle]}
+            textStyle={[styles.closeTextStyle]}
+            disabled={false}
             onPress={onShowHideModal}
-            style={styles.closeButtonStyle}>
-            <Text style={styles.closeTextStyle}>{'CLOSE'}</Text>
-          </TouchableOpacity>
+            text={'CLOSE'}/>
         </SafeAreaView>
       </Modal>
     );
   };
 
   return (
-    <View style={styles.container}>
+    <CustomScreenContainer>
       <NavigationHeader
-            title={'Authentication'}
-            leftIconAction={()=>{}}
-            leftIconType={'menu'}
-            containerStyle={{
-              borderBottomWidth: 1,
-              borderBottomColor: 'grey',
-            }}
-          />
+        title={'Authentication'}
+        leftIconAction={()=>navigation.goBack()}
+        leftIconType={'back'}
+        containerStyle={{
+          borderBottomWidth: 1,
+          borderBottomColor: 'grey',
+        }}
+      />
       <KeyboardAvoidingView
         keyboardVerticalOffset={50}
         behavior={'padding'}
         style={styles.containerAvoidingView}>
-        <Text style={styles.textTitle}>
+        <CustomText style={styles.textTitle}>
           {'Please input your mobile phone number'}
-        </Text>
+        </CustomText>
           {renderModall()}
         <CustomTextInput
           containerStyle={[styles.containerInput, {width:'100%', marginTop:24, height:50}]}
@@ -165,25 +171,32 @@ export function AuthenticationScreen({navigation}) {
           onBlur={onChangeBlur}
           autoFocus={focusInput}
           LeftComponent={
-            <TouchableOpacity onPress={onShowHideModal}>
-              <View style={styles.openDialogView}>
-                <Text>{codeCountry + ' |'}</Text>
-              </View>
-            </TouchableOpacity>
+            // <TouchableOpacity onPress={onShowHideModal}>
+            //   <View style={styles.openDialogView}>
+            //     <Text>{codeCountry + ' |'}</Text>
+            //   </View>
+            // </TouchableOpacity>
+            <CustomButton
+            type={'link'}
+            buttonStyle={[styles.openDialogView]}
+            textStyle={[]}
+            disabled={false}
+            onPress={onShowHideModal}
+            text={codeCountry + ' |'}/>
           }
         />
         <View style={styles.viewBottom}>
-          <FullButtonComponent
+          <CustomButton
             type={'fill'}
             text={'Continue'}
             textStyle={styles.textContinue}
-            buttonStyle={[styles.btnContinue, GenericStyles.mt24]}
+            buttonStyle={[styles.btnContinue, GenericStyles.mt24, {backgroundColor:colors.mitra_seller_collor}]}
             onPress={onPressContinue}
             disabled={!actionButtonDisabled}
           />
         </View>
       </KeyboardAvoidingView>
-    </View>
+    </CustomScreenContainer>
   );
 }
 
@@ -202,15 +215,21 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   containerInput: {
+    backgroundColor: colors.primary_background,
+    borderRadius: 30,
+    paddingHorizontal: 20,
+    marginTop: 10,
     flexDirection: 'row',
-    paddingHorizontal: 12,
-    borderRadius: 10,
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: colors.textbox,
+    marginHorizontal:12,
+    marginVertical:5,
+    paddingVertical:5,
+    height: 50,
   },
   openDialogView: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    marginTop:3,
   },
   phoneInputStyle: {
     marginLeft: 5,
@@ -243,19 +262,19 @@ const styles = StyleSheet.create({
     paddingLeft: 25,
     paddingRight: 25,
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: colors.secondary_background,
   },
   filterInputStyle: {
     flex: 1,
-    paddingTop: 10,
-    paddingBottom: 10,
-    backgroundColor: '#fff',
+    paddingHorizontal:10,
+    paddingVertical:5,
+    backgroundColor: colors.secondary3,
     // color: '#424242',
   },
   countryModalStyle: {
     flex: 1,
     borderColor: 'black',
-    borderTopWidth: 1,
+    borderTopWidth: 0,
     padding: 12,
     flexDirection: 'row',
     alignItems: 'center',
@@ -278,9 +297,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth:2,
+    borderColor:'grey',
+    paddingHorizontal:10,
+    borderRadius:10,
+    height:50,
+    backgroundColor:colors.secondary3,
   },
   closeButtonStyle: {
     padding: 12,
+    // borderWidth:1,
     alignItems: 'center',
   },
   closeTextStyle: {

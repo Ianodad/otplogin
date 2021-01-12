@@ -148,7 +148,6 @@ const styles = StyleSheet.create({
 };
 
 CustomTextInput.defaultProps = {
-title:'username',
 LeftComponent: <></>,
 RightComponent: <></>,
 alertIcon: 'alert-circle',
