@@ -40,7 +40,7 @@ const OtpVerification = function(props) {
   const fiveTextInputRef = useRef(null);
   const sixTextInputRef = useRef(null);
 
-  const [otpArray, setOtpArray] = useState(['', '', '', '']);
+  const [otpArray, setOtpArray] = useState(['', '', '', '', '', '']);
   const [errorMessage, setErrorMessage] = useState('');
   const [resendButtonDisabledTime, setResendButtonDisabledTime] = useState(
     RESEND_OTP_TIME_LIMIT,
@@ -230,8 +230,6 @@ const OtpVerification = function(props) {
     console.log('todo: Submit OTP');
   };
 
-  // console.log(props.goBack());
-
   return (
     <CustomScreenContainer>
       <NavigationHeader
@@ -250,7 +248,7 @@ const OtpVerification = function(props) {
             {otpRequestData.email_id ? 'email' : 'mobile number'}{' \n\n'}
             {otpRequestData.username}{' \n'}
           </CustomText>
-          <View style={[GenericStyles.row, GenericStyles.mt12]}>
+          <View style={[{flex:0.5, alignItems:'center', justifyContent:'center'},GenericStyles.row, GenericStyles.mt12]}>
             {[
               firstTextInputRef,
               secondTextInputRef,
@@ -260,13 +258,13 @@ const OtpVerification = function(props) {
               sixTextInputRef,
             ].map((textInputRef, index) => (
               <CustomTextInput
-                containerStyle={[GenericStyles.fill, GenericStyles.row, {marginHorizontal:2}]}
+                containerStyle={[styles.optInputStyle]}
                 value={otpArray[index]}
                 onKeyPress={onOtpKeyPress(index)}
                 onChangeText={onOtpChange(index)}
                 keyboardType={'numeric'}
                 maxLength={1}
-                style={[]}
+                style={[{paddingLeft:22}]}
                 autoFocus={index === 0 ? true : undefined}
                 refCallback={refCallback(textInputRef)}
                 key={index}
@@ -308,7 +306,7 @@ const OtpVerification = function(props) {
             type={'fill'}
             text={'Submit'}
             textStyle={styles.submitButtonText}
-            buttonStyle={GenericStyles.mt24}
+            buttonStyle={[{height:50, backgroundColor:colors.mitra_seller_collor, borderRadius:30, justifyContent:'center'}, GenericStyles.mt24]}
             onPress={onSubmitButtonPress}
             disabled={submittingOtp}
           />
@@ -337,11 +335,9 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
   },
   otpText: {
-    fontWeight: 'bold',
-    color: colors.BLUE,
-    fontSize: 18,
-    width: '100%',
+    paddingLeft:22,
   },
+  optInputStyle:{marginHorizontal:5, borderWidth:0, height:50, width:50, borderColor:colors.secondary,borderRadius:30, backgroundColor:colors.secondary3},
 });
 
 OtpVerification.defaultProps = {

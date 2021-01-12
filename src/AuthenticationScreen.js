@@ -147,7 +147,7 @@ export function AuthenticationScreen({navigation}) {
         leftIconType={'back'}
         containerStyle={{
           borderBottomWidth: 1,
-          borderBottomColor: 'grey',
+          borderBottomColor: colors.SILVER,
         }}
       />
       <KeyboardAvoidingView
@@ -174,7 +174,7 @@ export function AuthenticationScreen({navigation}) {
             <CustomButton
             type={'link'}
             buttonStyle={[styles.openDialogView]}
-            textStyle={[]}
+            textStyle={[{color:'grey', fontSize:14}]}
             disabled={false}
             onPress={onShowHideModal}
             text={codeCountry + ' |'}/>
